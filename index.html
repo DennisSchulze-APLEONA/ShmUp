@@ -1216,35 +1216,6 @@
   }
 
 
-    const playerCenterX = state.player.x + state.player.width / 2;
-    const playerCenterY = state.player.y + state.player.height / 2;
-
-    for (let i = state.enemies.length - 1; i >= 0; i--) {
-      const enemy = state.enemies[i];
-      enemy.y += enemy.speedY * state.scrollSpeedMultiplier * state.enemySpeedFactor * dt;
-
-      if (enemy.type === 'Weaver') {
-        enemy.phase += dt * 4.5;
-        enemy.x += Math.sin(enemy.phase) * 160 * dt;
-        enemy.x = Math.max(10, Math.min(WIDTH - enemy.width - 10, enemy.x));
-      } else if (enemy.type === 'Interceptor') {
-        const diffX = playerCenterX - (enemy.x + enemy.width / 2);
-        enemy.x += Math.sign(diffX) * Math.min(Math.abs(diffX), 75 * dt);
-      }
-
-      if (enemy.fireInterval > 0 && enemy.y > 40 && enemy.y < HEIGHT - 160) {
-        enemy.fireCooldown -= dt;
-        if (enemy.fireCooldown <= 0) {
-          fireEnemyWeapon(enemy, playerCenterX, playerCenterY);
-          enemy.fireCooldown = enemy.fireInterval;
-        }
-      }
-
-      if (enemy.y > HEIGHT + 70) {
-        state.enemies.splice(i, 1);
-      }
-    }
-  }
 
   function spawnBoss() {
     state.bossNumber++;

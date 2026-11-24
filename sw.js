@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shmupoc-v12';
+const CACHE_NAME = 'shmup-apleona-v14';
 const ASSETS = [
   './',
   './index.html',
@@ -23,8 +23,16 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
+// Network-first: always grab fresh files from GitHub Pages when online; fall back to cache offline
 self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET') return;
   e.respondWith(
-    caches.match(e.request).then((cached) => cached || fetch(e.request))
+    fetch(e.request)
+      .then((networkRes) => {
+        const resClone = networkRes.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(e.request, resClone));
+        return networkRes;
+      })
+      .catch(() => caches.match(e.request))
   );
 });

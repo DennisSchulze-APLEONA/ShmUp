@@ -2156,8 +2156,8 @@
     if (isStandalonePWA || isMobilePortrait) {
       // Extra top clearance for iOS Dynamic Island / Notch + bottom clearance for Home Indicator
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      const topSafe = isIOS ? 64 : 36;
-      const bottomSafe = isIOS ? 38 : 44;
+      const topSafe = isIOS ? 76 : 36;
+      const bottomSafe = isIOS ? 34 : 44;
       const sideSafe = 12;
 
       const usableW = vw - sideSafe;

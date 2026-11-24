@@ -2029,6 +2029,9 @@
     // =========================================================================
   // DYNAMIC VERTICAL PLAYFIELD EXPANSION + ROUNDED-CORNER SAFE MARGINS
   // =========================================================================
+    // =========================================================================
+  // DYNAMIC VERTICAL PLAYFIELD EXPANSION + ROUNDED-CORNER SAFE MARGINS
+  // =========================================================================
   function fitGameContainer() {
     const container = document.getElementById('game-container');
     const vw = window.innerWidth;
@@ -2039,10 +2042,12 @@
     const isMobilePortrait = vw <= 600 && vh > vw;
 
     if (isStandalonePWA || isMobilePortrait) {
-      // Reserve sleek black bars at top & bottom to clear Pixel rounded corners & camera punch-hole
-      const topSafe = 32;
-      const bottomSafe = 24;
-      const usableW = vw;
+      // Reserve clear black borders at top (camera/status bar) and bottom (rounded corners/gesture bar)
+      const topSafe = 36;
+      const bottomSafe = 44;
+      const sideSafe = 12;
+
+      const usableW = vw - sideSafe;
       const usableH = Math.max(500, vh - topSafe - bottomSafe);
 
       const screenAspect = usableH / usableW;
@@ -2051,24 +2056,31 @@
       if (canvas.height !== newLogicalHeight) {
         canvas.height = newLogicalHeight;
         HEIGHT = newLogicalHeight;
-        if (state && state.stars && state.stars.length > 0) {
+        if (typeof state !== 'undefined' && state.stars && state.stars.length > 0) {
           initStarfield();
         }
       }
 
-      state.verticalScale = HEIGHT / 750.0;
+      if (typeof state !== 'undefined') {
+        state.verticalScale = HEIGHT / 750.0;
+      }
+
+      // Position explicitly inside the safe frame so flex centering cannot push the bottom down
+      document.body.style.alignItems = 'flex-start';
       container.style.width = `${usableW}px`;
       container.style.height = `${usableH}px`;
       container.style.marginTop = `${topSafe}px`;
-      container.style.marginBottom = `${bottomSafe}px`;
-      container.style.borderRadius = '18px';
+      container.style.marginBottom = '0px';
+      container.style.borderRadius = '20px';
     } else {
       // Desktop: classic 520x750 arcade cabinet
       if (canvas.height !== 750) {
         canvas.height = 750;
         HEIGHT = 750;
       }
-      state.verticalScale = 1.0;
+      if (typeof state !== 'undefined') {
+        state.verticalScale = 1.0;
+      }
       const targetRatio = 520 / 750;
       let finalW = vw;
       let finalH = vw / targetRatio;
@@ -2076,6 +2088,7 @@
         finalH = vh;
         finalW = vh * targetRatio;
       }
+      document.body.style.alignItems = 'center';
       container.style.width = `${Math.floor(finalW)}px`;
       container.style.height = `${Math.floor(finalH)}px`;
       container.style.marginTop = '0px';

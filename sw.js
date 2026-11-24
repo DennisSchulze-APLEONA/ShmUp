@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shmupoc-v10';
+const CACHE_NAME = 'shmupoc-v11';
 const ASSETS = [
   './',
   './index.html',

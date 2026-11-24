@@ -1,6 +1,6 @@
 {
-  "name": "ShmuPoC - Arcade Edition",
-  "short_name": "ShmuPoC",
+  "name": "ShmuP - Apleona Arcade Edition",
+  "short_name": "ShmuP",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

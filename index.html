@@ -431,29 +431,46 @@
   </div>
 
   <!-- Start Menu -->
-    <!-- Start Menu -->
-  <div id="start-overlay" class="overlay">
+    <!-- Intro Story Crawl -->
+  <div id="intro-overlay" class="overlay">
+    <div class="crawl-stage">
+      <div id="crawl-text" class="crawl-content">
+        <div class="crawl-episode">EPISODE IV</div>
+        <div class="crawl-heading">THE SLA STRIKES BACK</div>
+        <p>In a business park not so far away, critical infrastructure is under siege.</p>
+        <p>Rogue <span class="crawl-highlight">DOWNTIME DRONES</span> and unscheduled <span class="crawl-highlight">AUDIT OVERLORDS</span> are threatening global HVAC stability, smart buildings, and coffee machine uptime.</p>
+        <p>Armed with the experimental <span class="crawl-highlight">APLEONA A-WING</span> interceptor, only one team can keep operations running at 99.9% efficiency.</p>
+        <p>Grab your ticket queue, power up your preventive maintenance cannons, and protect the portfolio...</p>
+      </div>
+    </div>
+    <div class="skip-hint">[ TAP OR PRESS ANY KEY TO ENGAGE ]</div>
+  </div>
+
+  <!-- Start Menu -->
+  <div id="start-overlay" class="overlay" style="display:none;">
     <div class="brand-banner">APLEONA</div>
-    <div class="title">SHMUPOC</div>
+    <div class="title">SHMUP</div>
     <div class="subtitle" style="color:#8FB3E8;">SELECT OPERATIONAL TIER</div>
 
     <button id="btn-cadet" class="preset-btn">
-      <span class="btn-title">INTERN</span>
+      <span class="btn-title">TRAINEE</span>
       <span class="btn-desc">150 Shield • Slower Enemies • 3 Bombs</span>
     </button>
 
     <button id="btn-ace" class="preset-btn">
-      <span class="btn-title">FACILITY PRO (STANDARD)</span>
+      <span class="btn-title">FACILITY MANAGER</span>
       <span class="btn-desc">100 Shield • Balanced Pacing • 2 Bombs</span>
     </button>
 
     <button id="btn-nightmare" class="preset-btn">
-      <span class="btn-title">CRITICAL OPS</span>
+      <span class="btn-title">IT DEPARTMENT</span>
       <span class="btn-desc">75 Shield • Fast &amp; Aggressive • 1.25x Score</span>
     </button>
 
     <div class="controls-hint">Drag / WASD: Move | Auto/Space: Fire | Bomb | Pause</div>
   </div>
+
+  <!-- Pause Overlay -->
 
   <!-- Pause Overlay -->
   <div id="pause-overlay" class="overlay">

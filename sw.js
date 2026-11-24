@@ -1,4 +1,4 @@
-const CACHE_NAME = 'shmup-apleona-v14';
+const CACHE_NAME = 'shmup-apleona-v15';
 const ASSETS = [
   './',
   './index.html',

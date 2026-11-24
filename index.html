@@ -51,7 +51,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    filter: contrast(1.06) saturate(1.15);
+    filter: brightness(1.22) contrast(1.06) saturate(1.15);
   }
 
   /* Top HUD */
@@ -330,9 +330,9 @@
     pointer-events: none;
     z-index: 15;
     background:
-      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%),
-      radial-gradient(circle at center, transparent 58%, rgba(0, 0, 0, 0.55) 100%);
-    background-size: 100% 4px, 100% 100%;
+      linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.14) 50%),
+      radial-gradient(circle at center, transparent 66%, rgba(0, 0, 0, 0.32) 100%);
+    background-size: 100% 3px, 100% 100%;
   }
 
   /* Touch Smart-Bomb Button */
@@ -1703,20 +1703,20 @@
     }
   }
 
-    function drawPlayer() {
+      function drawPlayer() {
     if (state.isInMenu || state.isGameOver) return;
     ctx.save();
     ctx.translate(state.player.x, state.player.y);
 
     // Shield Aura
     const shieldRatio = Math.max(0, state.health) / state.maxHealth;
-    const auraAlpha = 0.18 + (shieldRatio * 0.45);
+    const auraAlpha = 0.22 + (shieldRatio * 0.48);
     const auraThickness = state.maxHealth > 100 ? 1.5 + ((state.maxHealth - 100) / 50.0) : 1.5;
     const auraColor = state.maxHealth >= 175 ? '#FFD700' : (state.maxHealth >= 125 ? '#00FF7F' : '#5CE1E6');
 
     ctx.beginPath();
     ctx.ellipse(22, 24, 28, 29, 0, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(92, 225, 230, 0.08)';
+    ctx.fillStyle = 'rgba(92, 225, 230, 0.10)';
     ctx.fill();
     ctx.save();
     ctx.globalAlpha = auraAlpha;
@@ -1727,23 +1727,32 @@
 
     // Twin Thrusters
     const flameLen = 52 + Math.sin(state.elapsedTime * 55) * 3;
-    drawPolyString(`6,44,11,${flameLen},16,44`, '#FF9900');
-    drawPolyString(`28,44,33,${flameLen},38,44`, '#FF9900');
+    drawPolyString(`12,42,16,${flameLen},20,42`, '#FF9900');
+    drawPolyString(`24,42,28,${flameLen},32,42`, '#FF9900');
 
-    // Outer "A"-Wing Delta Frame (Apleona Coral Red)
-    drawPolyString('22,0,44,44,33,44,29,34,15,34,11,44,0,44', '#E14242', '#FFFFFF', 1.2);
+    // Wing-Mounted Laser Cannons & Coral-Red Muzzle Tips
+    ctx.fillStyle = '#8FB3E8';
+    ctx.fillRect(6, 18, 3, 14);
+    ctx.fillRect(35, 18, 3, 14);
+    ctx.fillStyle = '#E14242';
+    ctx.fillRect(5.5, 15, 4, 4);
+    ctx.fillRect(34.5, 15, 4, 4);
 
-    // Inner Navy Core & Crossbar Cutout
-    drawPolyString('22,12,27,26,17,26', '#081E42');
+    // Outer Delta Wing Hull (Deep Navy + Coral-Red Edge)
+    drawPolyString('22,4,44,38,34,44,22,36,10,44,0,38', '#081E42', '#E14242', 1.6);
 
-    // Glowing White Cockpit Core
+    // Inner Coral-Red "A"-Frame Fuselage
+    drawPolyString('22,1,29,31,25,31,24,26,20,26,19,31,15,31', '#E14242');
+
+    // Glowing White Cockpit
     ctx.beginPath();
-    ctx.ellipse(22, 20, 2.5, 5, 0, 0, Math.PI * 2);
+    ctx.ellipse(22, 18, 2.5, 5.5, 0, 0, Math.PI * 2);
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
 
     ctx.restore();
   }
+
 
   function drawEnemy(enemy) {
     ctx.save();

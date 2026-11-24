@@ -21,7 +21,11 @@
     margin: 0;
     padding: 0;
   }
-    body {
+  html, body {
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+  body {
     background-color: #030A17;
     display: flex;
     justify-content: center;
@@ -43,6 +47,22 @@
     overflow: hidden;
     flex-shrink: 0;
   }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: contrast(1.06) saturate(1.15);
+  }
+
+  /* Top HUD */
+  #hud-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
   #top-hud {
     background: rgba(8, 30, 66, 0.88);
     border-bottom: 1.5px solid #E14242;
@@ -57,10 +77,39 @@
     font-weight: bold;
     letter-spacing: 0.5px;
   }
+  #score-text {
+    color: #FFFFFF;
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 1.1;
+  }
+  #high-score-text {
+    color: #FFD700;
+    font-size: 10px;
+    font-weight: bold;
+  }
+  .hud-center {
+    text-align: center;
+  }
+  #weapon-text {
+    color: #5CE1E6;
+    font-size: 13px;
+    font-weight: bold;
+  }
   #speed-tier-text {
     color: #8FB3E8;
     font-size: 10px;
     margin: 2px 0 1px;
+  }
+  .hud-toggles {
+    font-size: 10px;
+    color: #8899A6;
+  }
+  .hud-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
   #shield-value-text {
     color: #5CE1E6;
@@ -80,6 +129,39 @@
     background: #5CE1E6;
     transition: width 0.08s linear;
   }
+  #bomb-text {
+    color: #FF9900;
+    font-size: 11px;
+    font-weight: bold;
+  }
+
+  /* Boss HUD */
+  #boss-hud {
+    display: none;
+    background: rgba(26, 8, 16, 0.85);
+    border-bottom: 1.5px solid #E14242;
+    padding: 6px 15px;
+  }
+  #boss-name-text {
+    color: #E14242;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 3px;
+  }
+  .boss-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: #2B0F1A;
+    border: 1px solid #FF6688;
+  }
+  #boss-health-fill {
+    width: 100%;
+    height: 100%;
+    background: #E14242;
+  }
+
+  /* Overlays */
   .overlay {
     position: absolute;
     inset: 0;
@@ -92,6 +174,14 @@
   }
   #start-overlay {
     background: rgba(5, 18, 41, 0.90);
+  }
+  #pause-overlay {
+    display: none;
+    background: rgba(5, 18, 41, 0.72);
+  }
+  #gameover-overlay {
+    display: none;
+    background: rgba(5, 18, 41, 0.85);
   }
   .brand-banner {
     background: #081E42;
@@ -111,6 +201,10 @@
     font-weight: bold;
     letter-spacing: 3px;
   }
+  .subtitle {
+    font-size: 14px;
+    margin: 4px 0 22px;
+  }
   .preset-btn {
     width: min(380px, 88%);
     background: #081E42;
@@ -125,11 +219,24 @@
     filter: brightness(1.25);
     transform: scale(1.015);
   }
-  #btn-cadet { border-color: #5CE1E6; }
-  #btn-cadet .btn-title { color: #5CE1E6; }
+  .preset-btn .btn-title {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+  }
+  .preset-btn .btn-desc {
+    color: #B0C4DE;
+    font-size: 11px;
+    display: block;
+    margin-top: 2px;
+  }
 
-  #btn-ace { border-color: #FFD700; }
-  #btn-ace .btn-title { color: #FFD700; }
+  /* Blue, White, Red Outlines */
+  #btn-cadet { border-color: #3B82F6; }
+  #btn-cadet .btn-title { color: #60A5FA; }
+
+  #btn-ace { border-color: #FFFFFF; }
+  #btn-ace .btn-title { color: #FFFFFF; }
 
   #btn-nightmare {
     background: #1A0E24;
@@ -141,22 +248,6 @@
   .controls-hint {
     color: #8899A6;
     font-size: 11px;
-  }
-    /* Touch & Viewport Scaling */
-  html, body {
-    touch-action: none;
-    overscroll-behavior: none;
-  }
-  #game-container {
-    width: min(520px, 100vw);
-    height: min(750px, 100vh);
-    aspect-ratio: 520 / 750;
-  }
-  canvas {
-    width: 100%;
-    height: 100%;
-    /* Subtle phosphor bloom on bright vectors */
-    filter: contrast(1.06) saturate(1.15);
   }
 
   /* CRT Scanline & Vignette Overlay */
@@ -193,6 +284,7 @@
     transform: scale(0.94);
     background: rgba(255, 153, 0, 0.4);
   }
+
   /* Bottom-Left Touch Utility Buttons (Pause & Mute) */
   #touch-controls-left {
     position: absolute;
@@ -204,10 +296,10 @@
   }
   .touch-util-btn {
     padding: 10px 12px;
-    background: rgba(16, 19, 28, 0.78);
-    border: 1.5px solid #45A29E;
+    background: rgba(8, 30, 66, 0.85);
+    border: 1.5px solid #4A77B5;
     border-radius: 8px;
-    color: #66FCF1;
+    color: #5CE1E6;
     font-family: inherit;
     font-size: 12px;
     font-weight: bold;
@@ -215,9 +307,8 @@
   }
   .touch-util-btn:active {
     transform: scale(0.94);
-    background: rgba(69, 162, 158, 0.35);
+    background: rgba(225, 66, 66, 0.35);
   }
-
 </style>
 </head>
 <body>

@@ -33,18 +33,19 @@
   }
   #game-container {
     position: relative;
-    width: min(100vw, calc(100dvh * 520 / 750), 520px);
-    height: auto;
-    aspect-ratio: 520 / 750;
+    width: 520px;
+    height: 750px;
     background-color: #090A0F;
     border: 1px solid #45A29E;
     box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
     overflow: hidden;
+    flex-shrink: 0;
   }
   canvas {
     display: block;
-    width: 520px;
-    height: 750px;
+    width: 100%;
+    height: 100%;
+    filter: contrast(1.06) saturate(1.15);
   }
 
   /* Top HUD */
@@ -2014,6 +2015,31 @@
     if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
+
+    // =========================================================================
+  // EXACT 520:750 ASPECT-RATIO VIEWPORT FITTER (Zero Stretch)
+  // =========================================================================
+  function fitGameContainer() {
+    const container = document.getElementById('game-container');
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const targetRatio = 520 / 750;
+
+    let finalW = vw;
+    let finalH = vw / targetRatio;
+
+    if (finalH > vh) {
+      finalH = vh;
+      finalW = vh * targetRatio;
+    }
+
+    container.style.width = `${Math.floor(finalW)}px`;
+    container.style.height = `${Math.floor(finalH)}px`;
+  }
+
+  window.addEventListener('resize', fitGameContainer);
+  fitGameContainer();
+
 
   // Boot
   initStarfield();

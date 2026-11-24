@@ -2143,6 +2143,13 @@
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
+    // Inside the desktop `else` branch of fitGameContainer():
+    const isDesktopStandalone = window.matchMedia('(display-mode: standalone), (display-mode: minimal-ui)').matches;
+    if (isDesktopStandalone && !window.__sizedDesktopWindow) {
+      window.__sizedDesktopWindow = true;
+      window.resizeTo(560, 810);
+    }
+
     const isStandalonePWA = window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches
       || window.navigator.standalone === true;
     const isMobilePortrait = vw <= 600 && vh > vw;

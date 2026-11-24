@@ -1,10 +1,11 @@
 {
-  "name": "ShmuP - Apleona Arcade Edition",
-  "short_name": "ShmuP",
+  "id": "./index.html",
+  "name": "ShmUp - Apleona Arcade Edition",
+  "short_name": "ShmUp",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
+  "display_override": [ "standalone", "minimal-ui" ],
   "background_color": "#081E42",
   "theme_color": "#081E42",
   "icons": [

@@ -21,8 +21,8 @@
     margin: 0;
     padding: 0;
   }
-  body {
-    background-color: #050608;
+    body {
+    background-color: #030A17;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,125 +37,49 @@
     position: relative;
     width: 520px;
     height: 750px;
-    background-color: #090A0F;
-    border: 1px solid #45A29E;
-    box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+    background-color: #051229;
+    border: 1.5px solid #E14242;
+    box-shadow: 0 0 32px rgba(225, 66, 66, 0.25);
     overflow: hidden;
     flex-shrink: 0;
   }
-  canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    filter: contrast(1.06) saturate(1.15);
-  }
-
-  /* Top HUD */
-  #hud-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-    z-index: 10;
-  }
   #top-hud {
-    background: rgba(16, 19, 28, 0.72);
-    border-bottom: 1px solid #45A29E;
+    background: rgba(8, 30, 66, 0.88);
+    border-bottom: 1.5px solid #E14242;
     padding: 8px 15px;
     display: grid;
     grid-template-columns: 1fr 1.5fr 1.15fr;
     align-items: center;
   }
   .hud-label {
-    color: #66FCF1;
+    color: #E14242;
     font-size: 10px;
     font-weight: bold;
-  }
-  #score-text {
-    font-size: 19px;
-    font-weight: bold;
-    line-height: 1.1;
-  }
-  #high-score-text {
-    color: #FFD700;
-    font-size: 10px;
-    font-weight: bold;
-  }
-  .hud-center {
-    text-align: center;
-  }
-  #weapon-text {
-    color: #00E5FF;
-    font-size: 13px;
-    font-weight: bold;
+    letter-spacing: 0.5px;
   }
   #speed-tier-text {
-    color: #66FCF1;
+    color: #8FB3E8;
     font-size: 10px;
     margin: 2px 0 1px;
   }
-  .hud-toggles {
-    font-size: 10px;
-    color: #8899A6;
-  }
-  .hud-right {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
   #shield-value-text {
-    color: #00E5FF;
+    color: #5CE1E6;
     font-size: 10px;
     font-weight: bold;
   }
   .bar-bg {
     width: 110px;
     height: 12px;
-    background: #1F2833;
-    border: 1px solid #45A29E;
+    background: #051229;
+    border: 1px solid #4A77B5;
     margin: 3px 0 4px;
   }
   #health-bar-fill {
     width: 100%;
     height: 100%;
-    background: #00E5FF;
+    background: #5CE1E6;
     transition: width 0.08s linear;
   }
-  #bomb-text {
-    color: #FF9900;
-    font-size: 11px;
-    font-weight: bold;
-  }
-
-  /* Boss HUD */
-  #boss-hud {
-    display: none;
-    background: rgba(26, 8, 16, 0.82);
-    border-bottom: 1px solid #FF3366;
-    padding: 6px 15px;
-  }
-  #boss-name-text {
-    color: #FF3366;
-    font-size: 11px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 3px;
-  }
-  .boss-bar-bg {
-    width: 100%;
-    height: 10px;
-    background: #2B0F1A;
-    border: 1px solid #FF6688;
-  }
-  #boss-health-fill {
-    width: 100%;
-    height: 100%;
-    background: #FF3366;
-  }
-
-  /* Overlays */
   .overlay {
     position: absolute;
     inset: 0;
@@ -167,30 +91,30 @@
     text-align: center;
   }
   #start-overlay {
-    background: rgba(9, 10, 15, 0.86);
+    background: rgba(5, 18, 41, 0.90);
   }
-  #pause-overlay {
-    display: none;
-    background: rgba(9, 10, 15, 0.68);
-  }
-  #gameover-overlay {
-    display: none;
-    background: rgba(9, 10, 15, 0.82);
+  .brand-banner {
+    background: #081E42;
+    border: 1.5px solid #E14242;
+    padding: 8px 26px;
+    margin-bottom: 10px;
+    font-family: 'Arial', 'Helvetica Neue', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 6px;
+    color: #E14242;
+    box-shadow: 0 0 18px rgba(225, 66, 66, 0.3);
   }
   .title {
-    color: #66FCF1;
-    font-size: 48px;
+    color: #FFFFFF;
+    font-size: 38px;
     font-weight: bold;
-    letter-spacing: 2px;
-  }
-  .subtitle {
-    font-size: 14px;
-    margin: 4px 0 22px;
+    letter-spacing: 3px;
   }
   .preset-btn {
-    width: 380px;
-    background: #16222A;
-    border: 1.5px solid #00E5FF;
+    width: min(380px, 88%);
+    background: #081E42;
+    border: 1.5px solid #4A77B5;
     padding: 10px 14px;
     margin-bottom: 10px;
     cursor: pointer;
@@ -198,32 +122,21 @@
     transition: transform 0.08s, filter 0.12s;
   }
   .preset-btn:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.25);
     transform: scale(1.015);
   }
-  .preset-btn .btn-title {
-    font-size: 16px;
-    font-weight: bold;
-    display: block;
-  }
-  .preset-btn .btn-desc {
-    color: #B0C4DE;
-    font-size: 11px;
-    display: block;
-    margin-top: 2px;
-  }
-  #btn-cadet { border-color: #00E5FF; }
-  #btn-cadet .btn-title { color: #00E5FF; }
+  #btn-cadet { border-color: #5CE1E6; }
+  #btn-cadet .btn-title { color: #5CE1E6; }
 
   #btn-ace { border-color: #FFD700; }
   #btn-ace .btn-title { color: #FFD700; }
 
   #btn-nightmare {
-    background: #24121A;
-    border-color: #FF3366;
+    background: #1A0E24;
+    border-color: #E14242;
     margin-bottom: 22px;
   }
-  #btn-nightmare .btn-title { color: #FF3366; }
+  #btn-nightmare .btn-title { color: #E14242; }
 
   .controls-hint {
     color: #8899A6;
@@ -353,26 +266,28 @@
   </div>
 
   <!-- Start Menu -->
+    <!-- Start Menu -->
   <div id="start-overlay" class="overlay">
+    <div class="brand-banner">APLEONA</div>
     <div class="title">SHMUPOC</div>
-    <div class="subtitle">SELECT DIFFICULTY PRESET</div>
+    <div class="subtitle" style="color:#8FB3E8;">SELECT OPERATIONAL TIER</div>
 
     <button id="btn-cadet" class="preset-btn">
-      <span class="btn-title">[1] CADET</span>
+      <span class="btn-title">INTERN</span>
       <span class="btn-desc">150 Shield • Slower Enemies • 3 Bombs</span>
     </button>
 
     <button id="btn-ace" class="preset-btn">
-      <span class="btn-title">[2] ACE (STANDARD)</span>
+      <span class="btn-title">FACILITY PRO (STANDARD)</span>
       <span class="btn-desc">100 Shield • Balanced Pacing • 2 Bombs</span>
     </button>
 
     <button id="btn-nightmare" class="preset-btn">
-      <span class="btn-title">[3] NIGHTMARE</span>
+      <span class="btn-title">CRITICAL OPS</span>
       <span class="btn-desc">75 Shield • Fast &amp; Aggressive • 1.25x Score</span>
     </button>
 
-    <div class="controls-hint">WASD/Arrows: Move | Space/[F]: Fire | [B]: Bomb | [P]: Pause</div>
+    <div class="controls-hint">Drag / WASD: Move | Auto/Space: Fire | Bomb | Pause</div>
   </div>
 
   <!-- Pause Overlay -->
@@ -1402,7 +1317,7 @@
     // PowerUps
     for (let i = state.powerUps.length - 1; i >= 0; i--) {
       const p = state.powerUps[i];
-      const pBox = { x: p.renderX, y: p.y, w: 28, h: 28 };
+      const pBox = { x: p.renderX, y: p.y, w: 46, h: 22 };
       if (rectsIntersect(playerBox, pBox)) {
         audio.playSfx('pickup');
         spawnExplosion(p.renderX + 14, p.y + 14, p.type === 'Weapon' ? '#FFD700' : '#00FFFF', 14);
@@ -1606,20 +1521,20 @@
     }
   }
 
-  function drawPlayer() {
+    function drawPlayer() {
     if (state.isInMenu || state.isGameOver) return;
     ctx.save();
     ctx.translate(state.player.x, state.player.y);
 
     // Shield Aura
     const shieldRatio = Math.max(0, state.health) / state.maxHealth;
-    const auraAlpha = 0.15 + (shieldRatio * 0.45);
+    const auraAlpha = 0.18 + (shieldRatio * 0.45);
     const auraThickness = state.maxHealth > 100 ? 1.5 + ((state.maxHealth - 100) / 50.0) : 1.5;
-    const auraColor = state.maxHealth >= 175 ? '#FFD700' : (state.maxHealth >= 125 ? '#00FF7F' : '#00E5FF');
+    const auraColor = state.maxHealth >= 175 ? '#FFD700' : (state.maxHealth >= 125 ? '#00FF7F' : '#5CE1E6');
 
     ctx.beginPath();
     ctx.ellipse(22, 24, 28, 29, 0, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(0, 229, 255, 0.10)';
+    ctx.fillStyle = 'rgba(92, 225, 230, 0.08)';
     ctx.fill();
     ctx.save();
     ctx.globalAlpha = auraAlpha;
@@ -1628,18 +1543,20 @@
     ctx.stroke();
     ctx.restore();
 
-    // Thrusters
-    const flameLen = 50 + Math.sin(state.elapsedTime * 55) * 3;
-    drawPolyString(`14,42,18,${flameLen},22,42`, '#FF9900');
-    drawPolyString(`22,42,26,${flameLen},30,42`, '#FF9900');
+    // Twin Thrusters
+    const flameLen = 52 + Math.sin(state.elapsedTime * 55) * 3;
+    drawPolyString(`6,44,11,${flameLen},16,44`, '#FF9900');
+    drawPolyString(`28,44,33,${flameLen},38,44`, '#FF9900');
 
-    // Outer Wing Hull & Inner Fuselage
-    drawPolyString('22,4,44,38,34,44,22,36,10,44,0,38', '#1F2833', '#66FCF1', 1.5);
-    drawPolyString('22,0,28,28,22,40,16,28', '#45A29E');
+    // Outer "A"-Wing Delta Frame (Apleona Coral Red)
+    drawPolyString('22,0,44,44,33,44,29,34,15,34,11,44,0,44', '#E14242', '#FFFFFF', 1.2);
 
-    // Cockpit
+    // Inner Navy Core & Crossbar Cutout
+    drawPolyString('22,12,27,26,17,26', '#081E42');
+
+    // Glowing White Cockpit Core
     ctx.beginPath();
-    ctx.ellipse(22, 20, 3, 6, 0, 0, Math.PI * 2);
+    ctx.ellipse(22, 20, 2.5, 5, 0, 0, Math.PI * 2);
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
 
@@ -1701,34 +1618,29 @@
     ctx.restore();
   }
 
-  function drawPowerUp(p) {
+    function drawPowerUp(p) {
     ctx.save();
     ctx.translate(p.renderX, p.y);
 
-    if (p.type === 'Weapon') {
-      ctx.beginPath();
-      ctx.arc(14, 14, 14, 0, Math.PI * 2);
-      ctx.fillStyle = p.color;
-      ctx.fill();
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    } else {
-      drawPolyString('14,0,28,8,24,24,14,28,4,24,0,8', '#00FFFF', '#FFFFFF', 2);
-    }
+    // Pill dimensions: 46x22 rounded stadium capsule
+    const w = 46;
+    const h = 22;
+    const borderCol = p.type === 'Weapon' ? '#E14242' : '#5CE1E6';
 
-    ctx.fillStyle = '#000000';
-    ctx.font = '900 11px Consolas, monospace';
+    drawRoundedRect(0, 0, w, h, 11, '#081E42', borderCol, 2);
+
+    ctx.fillStyle = '#E14242';
+    ctx.font = 'bold 12px Arial, Helvetica, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(p.type === 'Weapon' ? 'W+' : 'S+', 14, 15);
+    ctx.fillText(p.type === 'Weapon' ? 'PWR+' : 'SHD+', w / 2, h / 2 + 0.5);
 
     ctx.restore();
   }
 
 
   function render() {
-     ctx.fillStyle = '#090A0F';
+     ctx.fillStyle = '#051229';
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     ctx.save();

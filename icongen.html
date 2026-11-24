@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ShmuPoC PWA Icon Generator</title>
+<style>
+  body {
+    background: #050608;
+    color: #ffffff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  h1 {
+    color: #66FCF1;
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  p {
+    color: #8899A6;
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .cards {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .card {
+    background: #10131C;
+    border: 1px solid #45A29E;
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  canvas {
+    border-radius: 22%;
+    border: 1px solid #1F2833;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+  }
+  button {
+    background: #16222A;
+    color: #00E5FF;
+    border: 1.5px solid #00E5FF;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button:hover {
+    filter: brightness(1.25);
+  }
+</style>
+</head>
+<body>
+
+  <h1>SHMUPOC PWA ICON GENERATOR</h1>
+  <p>Click below to download both PNG icons for your GitHub Pages repo.</p>
+
+  <div class="cards">
+    <div class="card">
+      <canvas id="c192" width="192" height="192"></canvas>
+      <button onclick="downloadIcon('c192', 'icon-192.png')">Download icon-192.png</button>
+    </div>
+
+    <div class="card">
+      <canvas id="c512" width="512" height="512" style="width:192px;height:192px;"></canvas>
+      <button onclick="downloadIcon('c512', 'icon-512.png')">Download icon-512.png</button>
+    </div>
+  </div>
+
+<script>
+	function drawShipIcon(canvasId) {
+	const c = document.getElementById(canvasId);
+	const g = c.getContext('2d');
+	const sz = c.width;
+	const s = sz / 512;
+
+	// Apleona Navy Background
+	g.fillStyle = '#081E42';
+	g.fillRect(0, 0, sz, sz);
+
+	g.save();
+	g.scale(s, s);
+
+	// Subtle coral glow
+	g.shadowBlur = 24;
+	g.shadowColor = 'rgba(225, 66, 66, 0.55)';
+
+	// Bold Coral-Red Geometric "A" Emblem
+	g.fillStyle = '#E14242';
+	g.beginPath();
+	g.moveTo(256, 76);
+	g.lineTo(426, 436);
+	g.lineTo(354, 436);
+	g.lineTo(318, 356);
+	g.lineTo(194, 356);
+	g.lineTo(158, 436);
+	g.lineTo(86, 436);
+	g.closePath();
+	g.fill();
+
+	// Inner Navy Triangle Cutout
+	g.shadowBlur = 0;
+	g.fillStyle = '#081E42';
+	g.beginPath();
+	g.moveTo(256, 174);
+	g.lineTo(296, 294);
+	g.lineTo(216, 294);
+	g.closePath();
+	g.fill();
+
+	g.restore();
+	}
+
+
+	function downloadIcon(canvasId, filename) {
+	const c = document.getElementById(canvasId);
+	const link = document.createElement('a');
+	link.download = filename;
+	link.href = c.toDataURL('image/png');
+	link.click();
+	}
+
+	drawShipIcon('c192');
+	drawShipIcon('c512');
+</script>
+</body>
+</html>

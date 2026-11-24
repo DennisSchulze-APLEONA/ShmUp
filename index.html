@@ -2138,30 +2138,28 @@
     // =========================================================================
   // DYNAMIC VERTICAL PLAYFIELD EXPANSION + ROUNDED-CORNER SAFE MARGINS
   // =========================================================================
+    // =========================================================================
+  // DYNAMIC VERTICAL PLAYFIELD EXPANSION + iOS / ANDROID SAFE MARGINS
+  // =========================================================================
   function fitGameContainer() {
     const container = document.getElementById('game-container');
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-
-    // Inside the desktop `else` branch of fitGameContainer():
-    const isDesktopStandalone = window.matchMedia('(display-mode: standalone), (display-mode: minimal-ui)').matches;
-    if (isDesktopStandalone && !window.__sizedDesktopWindow) {
-      window.__sizedDesktopWindow = true;
-      window.resizeTo(560, 810);
-    }
+    const vv = window.visualViewport;
+    const vw = Math.round(vv ? vv.width : window.innerWidth);
+    const vh = Math.round(vv ? vv.height : window.innerHeight);
 
     const isStandalonePWA = window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches
       || window.navigator.standalone === true;
     const isMobilePortrait = vw <= 600 && vh > vw;
 
     if (isStandalonePWA || isMobilePortrait) {
-      // Reserve clear black borders at top (camera/status bar) and bottom (rounded corners/gesture bar)
-      const topSafe = 36;
-      const bottomSafe = 44;
+      // Extra top clearance for iOS Dynamic Island / Notch + bottom clearance for Home Indicator
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const topSafe = isIOS ? 50 : 36;
+      const bottomSafe = isIOS ? 38 : 44;
       const sideSafe = 12;
 
       const usableW = vw - sideSafe;
-      const usableH = Math.max(500, vh - topSafe - bottomSafe);
+      const usableH = Math.max(480, vh - topSafe - bottomSafe);
 
       const screenAspect = usableH / usableW;
       const newLogicalHeight = Math.round(WIDTH * screenAspect);
@@ -2172,13 +2170,16 @@
         if (typeof state !== 'undefined' && state.stars && state.stars.length > 0) {
           initStarfield();
         }
+        // Keep player ship inside bounds if resized mid-session
+        if (typeof state !== 'undefined' && state.player) {
+          state.player.y = Math.min(state.player.y, HEIGHT - state.player.height);
+        }
       }
 
       if (typeof state !== 'undefined') {
         state.verticalScale = HEIGHT / 750.0;
       }
 
-      // Position explicitly inside the safe frame so flex centering cannot push the bottom down
       document.body.style.alignItems = 'flex-start';
       container.style.width = `${usableW}px`;
       container.style.height = `${usableH}px`;
@@ -2209,6 +2210,13 @@
       container.style.borderRadius = '0px';
     }
   }
+
+  window.addEventListener('resize', fitGameContainer);
+  window.addEventListener('orientationchange', () => setTimeout(fitGameContainer, 200));
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', fitGameContainer);
+  }
+
 
 
   
@@ -2245,6 +2253,9 @@
 
   // Boot
   fitGameContainer();
+  setTimeout(fitGameContainer, 120);
+  setTimeout(fitGameContainer, 350);
+  setTimeout(fitGameContainer, 800);
   initStarfield();
   elHighScore.textContent = `BEST: ${String(state.highScore).padStart(6, '0')}`;
   requestAnimationFrame(gameLoop);

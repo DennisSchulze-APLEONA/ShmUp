@@ -397,7 +397,7 @@
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
   const WIDTH = canvas.width;
-  const HEIGHT = canvas.height;
+  let HEIGHT = canvas.height;
 
 
   window.onerror = (msg, src, line) => {
@@ -820,7 +820,7 @@
     state.activeBoss = null;
 
     state.player.x = 238;
-    state.player.y = 620;
+     state.player.y = HEIGHT - 130;
 
     elStartOverlay.style.display = 'none';
     elGameOverOverlay.style.display = 'none';
@@ -2019,23 +2019,55 @@
     // =========================================================================
   // EXACT 520:750 ASPECT-RATIO VIEWPORT FITTER (Zero Stretch)
   // =========================================================================
+    // =========================================================================
+  // DYNAMIC VERTICAL PLAYFIELD EXPANSION (Mobile/PWA Full-Height, Zero Stretch)
+  // =========================================================================
   function fitGameContainer() {
     const container = document.getElementById('game-container');
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const targetRatio = 520 / 750;
 
-    let finalW = vw;
-    let finalH = vw / targetRatio;
+    // Detect standalone PWA mode or narrow portrait mobile screen
+    const isStandalonePWA = window.matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+    const isMobilePortrait = vw <= 600 && vh > vw;
 
-    if (finalH > vh) {
-      finalH = vh;
-      finalW = vh * targetRatio;
+    if (isStandalonePWA || isMobilePortrait) {
+      // Fill the full screen edge-to-edge and extend logical canvas height to match
+      const screenAspect = vh / vw;
+      const newLogicalHeight = Math.round(WIDTH * screenAspect);
+
+      if (canvas.height !== newLogicalHeight) {
+        canvas.height = newLogicalHeight;
+        HEIGHT = newLogicalHeight;
+        // Re-populate stars across the taller sky
+        if (state && state.stars && state.stars.length > 0) {
+          initStarfield();
+        }
+      }
+
+      container.style.width = `${vw}px`;
+      container.style.height = `${vh}px`;
+    } else {
+      // Desktop: keep classic 520x750 arcade cabinet proportions
+      if (canvas.height !== 750) {
+        canvas.height = 750;
+        HEIGHT = 750;
+      }
+      const targetRatio = 520 / 750;
+      let finalW = vw;
+      let finalH = vw / targetRatio;
+      if (finalH > vh) {
+        finalH = vh;
+        finalW = vh * targetRatio;
+      }
+      container.style.width = `${Math.floor(finalW)}px`;
+      container.style.height = `${Math.floor(finalH)}px`;
     }
-
-    container.style.width = `${Math.floor(finalW)}px`;
-    container.style.height = `${Math.floor(finalH)}px`;
   }
+
+  
+
 
   window.addEventListener('resize', fitGameContainer);
   fitGameContainer();

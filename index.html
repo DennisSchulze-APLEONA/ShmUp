@@ -33,10 +33,8 @@
   }
   #game-container {
     position: relative;
-    height: 100%;
-    max-height: 750px;
-    width: auto;
-    max-width: 100%;
+    width: min(100vw, calc(100dvh * 520 / 750), 520px);
+    height: auto;
     aspect-ratio: 520 / 750;
     background-color: #090A0F;
     border: 1px solid #45A29E;
@@ -279,6 +277,30 @@
     transform: scale(0.94);
     background: rgba(255, 153, 0, 0.4);
   }
+  /* Bottom-Left Touch Utility Buttons (Pause & Mute) */
+  #touch-controls-left {
+    position: absolute;
+    bottom: calc(22px + env(safe-area-inset-bottom));
+    left: 18px;
+    z-index: 14;
+    display: flex;
+    gap: 10px;
+  }
+  .touch-util-btn {
+    padding: 10px 12px;
+    background: rgba(16, 19, 28, 0.78);
+    border: 1.5px solid #45A29E;
+    border-radius: 8px;
+    color: #66FCF1;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .touch-util-btn:active {
+    transform: scale(0.94);
+    background: rgba(69, 162, 158, 0.35);
+  }
 
 </style>
 </head>
@@ -288,7 +310,10 @@
   <canvas id="gameCanvas" width="520" height="750"></canvas>
   <div id="crt-overlay"></div>
   <button id="touch-bomb-btn" type="button">BOMB</button>
-
+  <div id="touch-controls-left">
+    <button id="touch-pause-btn" class="touch-util-btn" type="button">PAUSE</button>
+    <button id="touch-mute-btn" class="touch-util-btn" type="button">SND: ON</button>
+  </div>
   <!-- HUD -->
   <div id="hud-wrapper">
     <div id="top-hud">
@@ -350,7 +375,7 @@
   <!-- Pause Overlay -->
   <div id="pause-overlay" class="overlay">
     <div class="title" style="font-size:40px;">PAUSED</div>
-    <div style="font-size:14px; margin:12px 0 4px;">[ P / ESC ] RESUME &nbsp; | &nbsp; [ F ] AUTOFIRE</div>
+    <div style="font-size:14px; margin:12px 0 4px;">[ P / ESC ] OR TAP TO RESUME &nbsp; | &nbsp; [ F ] AUTOFIRE</div>
     <div style="color:#8899A6; font-size:13px;">[ B ] SMART BOMB &nbsp;&nbsp;&nbsp; | &nbsp; [ M ] MUTE AUDIO</div>
   </div>
 
@@ -1936,6 +1961,34 @@
     e.stopPropagation();
     detonateSmartBomb();
   });
+
+    // =========================================================================
+  // TOUCH PAUSE, MUTE & TAP-TO-RESUME
+  // =========================================================================
+  const elTouchPause = document.getElementById('touch-pause-btn');
+  const elTouchMute = document.getElementById('touch-mute-btn');
+
+  elTouchPause.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
+    togglePause();
+  });
+
+  elTouchMute.addEventListener('pointerdown', (e) => {
+    e.stopPropagation();
+    toggleMute();
+    elTouchMute.textContent = audio.isMuted ? 'SND: OFF' : 'SND: ON';
+    elTouchMute.style.borderColor = audio.isMuted ? '#FF4500' : '#45A29E';
+    elTouchMute.style.color = audio.isMuted ? '#FF4500' : '#66FCF1';
+  });
+
+  // Tap anywhere on the Pause overlay to resume on mobile
+  elPauseOverlay.addEventListener('pointerdown', (e) => {
+    if (!state.isPaused) return;
+    e.preventDefault();
+    togglePause();
+  });
+
+
     // =========================================================================
   // TAP-TO-REBOOT ON GAME OVER
   // =========================================================================
